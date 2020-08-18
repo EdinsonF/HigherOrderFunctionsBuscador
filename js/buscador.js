@@ -11,6 +11,71 @@ for(let i = max; i >  min; i--) {
 }
 
 
+//VARIABLE CONFIGURACION
+let confBusqueda={
+    marca:'',
+    year:'',
+    min:'',
+    max:'',
+    puertas:'',
+    transmision:'',
+    color:''
+}
+
+
+// EVENLISTENER AL INICIO
+const autos = consultarAutos();
+
+document.addEventListener('DOMContentLoaded', (e) =>{
+    mostrarAutos(autos);
+    
+});
+
+
+// EVENTLISTENER DE FORMULARIO
+
+const marca = document.querySelector("#marca");
+marca.addEventListener('input', e =>{
+    confBusqueda.marca = e.target.value;
+    filtrarAutos();
+});
+
+
+
+// FIN EVENTLISTENER
+
+function mostrarAutos(autos){
+    const contenedor = document.querySelector("#resultado");
+    //limpiamos el id
+    while(contenedor.firstChild){
+        contenedor.removeChild(contenedor.firstChild);
+    }
+    autos.forEach(auto => {
+         const elemento = document.createElement('p');
+         elemento.innerHTML = `
+            <p><b>Marca:</b> ${auto.marca} ${auto.modelo} ${auto.transmision} - <b>Año:</b> ${auto.year} - ${auto.puertas} puertas - <b>Color:</b> ${auto.color} - <b>Precio:</b> ${auto.precio}</p>
+        `;
+        //agrgamos
+        contenedor.appendChild(elemento);
+        
+    });    
+}
+
+
+//PARAMETROS DE FILTRADOS
+
+function filtrarAutos() {
+    const resultado = consultarAutos().filter(filtarMarca);
+    mostrarAutos(resultado);
+}
+
+function filtarMarca(autos){
+    if(confBusqueda.marca){
+        return autos.marca === confBusqueda.marca;
+    }else{
+        return auto;
+    }
+}
 
 
 
@@ -19,28 +84,10 @@ for(let i = max; i >  min; i--) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//REGISTROS DE AUTOS
 
 function consultarAutos(){
-   return autos = [
+   return  [
         {
             marca: 'BMW',
             modelo: 'Serie 3',
