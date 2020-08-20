@@ -1,9 +1,9 @@
 // crear los años
 const years = document.createElement('option');
 const  max = new Date().getFullYear();
-let  min = max - 10;
+let  mini = max - 10;
 
-for(let i = max; i >  min; i--) {
+for(let i = max; i >  mini; i--) {
     let option =  document.createElement('option');
     option.value = i;
     option.innerText = i;
@@ -37,11 +37,73 @@ document.addEventListener('DOMContentLoaded', (e) =>{
 const marca = document.querySelector("#marca");
 marca.addEventListener('input', e =>{
     confBusqueda.marca = e.target.value;
-    filtrarAutos();
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.marca ='';
+        e.target.value = '';
+    }
 });
 
+const year = document.querySelector("#year");
+year.addEventListener('input', e =>{
+    confBusqueda.year = e.target.value;
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.year ='';
+        e.target.value = '';
+    }
+});
 
+const min = document.querySelector("#minimo");
+min.addEventListener('input', e =>{
+    confBusqueda.min = e.target.value;
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.min ='';
+        e.target.value = '';
+    }
+});
 
+const maximo = document.querySelector("#maximo");
+maximo.addEventListener('input', e =>{
+    confBusqueda.max = e.target.value;
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.max ='';
+        e.target.value = '';
+    }
+});
+
+const puertas = document.querySelector("#puertas");
+puertas.addEventListener('input', e =>{
+    confBusqueda.puertas = e.target.value;
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.puertas ='';
+        e.target.value = '';
+    }
+});
+
+const transmision = document.querySelector("#transmision");
+transmision.addEventListener('input', e =>{
+    confBusqueda.transmision = e.target.value;
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.transmision ='';
+        e.target.value = '';
+    }
+});
+
+const color = document.querySelector("#color");
+color.addEventListener('input', e =>{
+    confBusqueda.color = e.target.value;
+    //console.log(e);
+    const valor= filtrarAutos();
+    if(valor === 0){
+        confBusqueda.color ='';
+        e.target.value = '';
+    }
+});
 // FIN EVENTLISTENER
 
 function mostrarAutos(autos){
@@ -65,21 +127,74 @@ function mostrarAutos(autos){
 //PARAMETROS DE FILTRADOS
 
 function filtrarAutos() {
-    const resultado = consultarAutos().filter(filtarMarca);
-    mostrarAutos(resultado);
+    
+    const resultado = consultarAutos().filter(filtarMarca).filter(filtarYear).filter(filtarMinimo).filter(filtarMaximo)
+                    .filter(filtarPuertas).filter(filtarTrans).filter(filtarColor);
+    console.log(resultado);
+    if(resultado.length){
+        mostrarAutos(resultado);
+    }else{      
+        alert("No hay resultados");
+        return 0;
+    }
+    
 }
 
 function filtarMarca(autos){
     if(confBusqueda.marca){
         return autos.marca === confBusqueda.marca;
     }else{
-        return auto;
+        return autos;
     }
 }
 
+function filtarYear(autos){
+        if(confBusqueda.year){
+            return autos.year === Number(confBusqueda.year);
+        }else{
+            return autos;
+    }
+}
 
+function filtarMinimo(autos){
+    if(confBusqueda.min){
+        return autos.precio >= Number(confBusqueda.min);
+    }else{
+        return autos;
+}
+}
 
+function filtarMaximo(autos){
+    if(confBusqueda.max){
+        return autos.precio <= Number(confBusqueda.max);
+    }else{
+        return autos;
+}
+}
 
+function filtarPuertas(autos){
+    if(confBusqueda.puertas){
+        return autos.puertas === Number(confBusqueda.puertas);
+    }else{
+        return autos;
+}
+}
+
+function filtarTrans(autos){
+    if(confBusqueda.transmision){
+        return autos.transmision === confBusqueda.transmision;
+    }else{
+        return autos;
+}
+}
+
+function filtarColor(autos){
+    if(confBusqueda.color){
+        return autos.color === confBusqueda.color;
+    }else{
+        return autos;
+}
+}
 
 
 
